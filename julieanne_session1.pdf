@@ -1,0 +1,27 @@
+**Name/NetID**: Julieanne Nguyen/jnguy780
+
+**Session Date**:  4/7/26, 6 hours  
+
+**Objective**:  build a csr graph  
+
+**Attempts made:** 
+- started by using the base code in the github repo. using the pseduocode for the outline. 
+  
+- learned how to use std::thread from std_thread.cpp file
+- the first bug I ran into was when running the file arguments i kept running "./graph_query queries20.txt queries10000.txt 4  # wrong order!" and i could not figure ouot why it was wrong
+- I wrote a small test graph with 10 nodes and wrote some queries to confirm logic
+
+**Solutions/Workarounds**:  
+
+- I fixed the command to "./graph_query soc-Slashdot0902.txt queries20.txt 4" which solved my problem
+- i then ran the sequential and parallel test to make sure they matched
+
+**Experiments/Analysis (if applicable)**:
+
+- Testing 20 queries: parallel=0.16s, sequential=0.06s, speedup=2.5x
+- Testing 1000 queries: parallel=49s, sequential=14.5s, speedup=3.4x
+
+**Learning outcome**: Briefly describe technical things you learned in this session.
+- I know how to convert list of connections into csr
+- I lerned how to use std::threads
+- I learned about the differences in parallel vs sequential programming
