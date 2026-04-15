@@ -29,3 +29,15 @@ I evalutaed three graph algorithms (BFS, SSSP, CC) using a BSP framework. I comp
 **Learning outcome**: Briefly describe technical things you learned in this session.
 - adding threads does not automatically improve performance. Thread creation, synchronization overhead, and small or uneven workloads can outweigh the benefits of concurrency
 - extneded my csr graph to be bidirectional
+
+
+Answer the following questions in your development journal:
+
+Inside Process(tid, v, g), which memory location does the function write to? Using the parallel runner's vertex partitioning, explain why two threads can never write to the same location in one round.
+inside Process() the function only writes to the curr state array for vertex v. it does not write to the prev state array. The prarllel runnder divideds the list of vertices into one chunk per thread. threads can not wtite to the same location per round because there is no overlap. each vertex is assigned to only one thread per round and each threa only writes to its assigned vertics.
+
+Compare the parallel speedup you measured for BFS, SSSP, and CC. Which algorithm scales best, and what property of the algorithm explains the difference?
+in my experiment CC showed the most consistnnt scaling across thread counts, while BFS and SSSP had varying cases. since CC updates every vertex in every round, each vertex checks all its neighbors to find the smallest label. This creates an even amount of work across all threads
+
+In BFS, dist_[v] stores the current shortest hop distance from the source. BFS has two useful properties: (i) once dist_[v] is set, later rounds can never change it; (ii) in each round, v's newly-discovered in-neighbors all have the same distance. How could you use these facts to skip work? Why would the same tricks not work for SSSP or CC? (Implementing these optimizations is not required, but strongly encouraged: you should observe a significant speedup over the baseline BFS.)
+since dist_[v] isnt changed in later rounds we should not need to access it again in future rounds saving time. We could also keep a list of only the vertices that were just disovered and only check thoses verticies in the next round.This does not work for SSP because the edge weights vary, we arent ableto mark a vertex as  done until we are sure no better path exists. This also does not work for CC because a vertex could update multiple times before it finds the smallest label. 
