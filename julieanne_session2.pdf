@@ -1,0 +1,31 @@
+**Name/NetID**: Julieanne Nguyen/jnguy780
+
+**Session Date**:  4/15/26, 5 hours  
+
+**Session Date**:  4/15/26 3 hours
+
+**Objective**: Implement BSP to run BFS, SSSP, and Connected components algorithms on a weighted graph, to compare serieal and parallel performance  
+
+**Attempts made:** 
+
+- Initially updated distance and label arrays directly inside Process(). When running in parallel, threads read partially updated values from other threads mid-round, producing incorrect results and sometimes causing infinite loops.  
+- HasWork() was checking update flags that never got cleared, so the algorithm either terminated one round too early or ran indefinitely.
+
+
+**Solutions/Workarounds**:  
+
+- Implemented double-buffering by maintaining separate prev and curr arrays. Process() only reads from prev, and PostRound() copies curr back to prev after all threads finish. This addressed mid-round read/write conflicts.  
+- Reset per-thread update flags to 0 inside PostRound() and added a small debug loop to verify HasWork() correctly reflects whether any vertex changed in the previous round
+
+**Experiments/Analysis (if applicable)**:
+I evalutaed three graph algorithms (BFS, SSSP, CC) using a BSP framework. I compared serieal execution time against parallel execution with 1, 2, 4, and 8 threads, measuring from source 0 to vertex 50.
+   | Algorithm | Serial | 1 thread | 2 threads | 4 threads | 8 threads |
+   |---|---|---|---|---|---|
+   | BFS | 8x18e-07 | 3.073-07 | 5.11e-07 | 5.113-07 | 7.16e-07 |
+   | SSSP | 6.14e-07 | 3.07e-07 | 4.08e-07 | 6.14e-07 | 1.533e-06 |
+   | CC | 8.18e-07 | 4.09e-07 | 4.09e-07 | 2.05e-07 | 3.07e-07 |
+
+
+**Learning outcome**: Briefly describe technical things you learned in this session.
+- adding threads does not automatically improve performance. Thread creation, synchronization overhead, and small or uneven workloads can outweigh the benefits of concurrency
+- extneded my csr graph to be bidirectional
