@@ -20,13 +20,15 @@
 
 **Grades Distribution**:
 
-| Phase (Tentative) | Due | Point Percentage |
+| Phase (Tentative) | Weeks | Point Percentage |
 | :---- | :---- | :---- |
-| Phase 1: concurrent local queries | By the end of week 2 | 8% |
-| Phase 2: parallel global queries | By the end of week 4 | 12% \+ 3% |
-| Phase 3: concurrent and batched updates | By the end of week 5 | 8% |
-| Phase 4: incremental query evaluation | By the end of week 6 | 8% \+ 3% |
-| Phase 5: integration and optimization | By the end of week 8 | 12% \+ 3% |
+| Phase 1: concurrent local queries | Week 2–3 | 8% |
+| Phase 2: parallel global queries | Week 3–5 | 12% \+ 3% |
+| Phase 3: concurrent and batched updates | Week 5-6 | 8% |
+| Phase 4: incremental query evaluation | Week 6-7 | 8% \+ 3% |
+| Phase 5: integration and optimization | Week 7–9 | 12% \+ 3% |
+
+**Due Date Rule**: The exact due date depends on your lab section. If you are in a Tuesday lab section, each phase is due the following Tuesday at 11:59 PM. If you are in a Thursday lab section, each phase is due the following Thursday at 11:59 PM.
 
 **Late Submission Policy**:   
 Each team can request a 3-day extension twice without penalty. However, the following due dates *remain in place*. No further extensions will be granted after that.
