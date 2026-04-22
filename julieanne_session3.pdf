@@ -1,0 +1,43 @@
+**Name/NetID**: julieanne nguyen jnguy780
+
+**Session Date**: 4/21 6 hours 
+
+**Objective**: complete BFS serial lock free, naive push and serial lock free dense worklist
+
+**Attempts made:** 
+
+- built naive push First
+- added dense worklist version using inFrontier and inNext as sampled in readme
+- Difficulty 1: The dense version initially ran at the same rate as the naive version. I realized I forgot to reset inNext to zeros after every round
+- Difficulty 2: Push-BFS returned hops = 3 for vertex 50 but phase 2a pull BFS returned -1. I thought my code was wrong until I traced a graph by hand and realized push follows out edges and pull follows in edges.
+
+**Solutions/Workarounds**:  
+
+- fixed my first issue by clearing inNext at the end of each round
+- confirm the direction difference manually for push and pull logic 
+
+**Experiments/Analysis (if applicable)**:
+Speedup Table
+   | Algorithm | Serial LF, naive | Serial LF, dense | Naive parallel / 1t | Naive parallel / 4t | Dense parallel / 1t | Dense parallel / 4t | Pull / 1t | Pull / 4t |
+   |---|---|---|---|---|---|---|---|---|
+   | BFS | 1× | 4.3x | | | | | | |
+   | SSSP | 1× | | | | | | | |
+   | CC | 1× | | | | | | | |
+
+
+- serial native was 2.52s while serial dense was 0.58s, 4.3x faster
+- improvement comes from the algorithm and not through parallelism
+
+**Learning outcome**: 
+
+Answer the following in your development journal:
+
+Compare (a) the serial lock-free naive push against (b) the 1-thread naive parallel push. They run the same algorithm on a single thread, but (b) also acquires and releases a lock for every push. Are the two times the same? If not, where does the difference come from?
+No they take different times. The 1 thread parallel version will be slower, every lock and unlock call carries overhead. 
+
+Compare (a) the serial lock-free naive push against (b) the serial lock-free dense worklist. Neither takes a lock, so any time difference is purely algorithmic. For BFS specifically, explain why (b) visits strictly fewer edges than (a). Does the same saving apply to SSSP and CC?
+The dense worklist only processes vertices that changes in past rounds. In BFS, when the vertex recieves a distance it does not change again, visiging fewer edges. For SSSP, edge weights vary making visited edges increase. For CC, there are some savings as the labels can continue to decrease.
+
+Compare your parallel versions (3, 4) against the serial lock-free versions (1, 2). For SSSP and CC, 4 threads with locks may be slower than 1 thread without locks; this is expected. Share your own analysis of the numbers you measured: which scaling patterns match your intuition, which surprise you, and what do you think is going on inside the parallel version? (Phase 2c will revisit these with different synchronization techniques.)
+
+A hub is a vertex with unusually high in-degree, so many other vertices point at it. First verify that hubs exist in soc-LiveJournal1-weighted.txt: report the top-3 in-degrees. Then answer: when a hub appears as a destination, many threads push to it in the same round and serialize on the hub's lock. Does this problem go away if you enlarge the striped pool? Does it go away if you give every vertex its own mutex? Explain why hub contention is inherent to push-based parallelism.
